@@ -2,8 +2,8 @@
 Cargo.lock
 
 __pycache__/
-.pytest_cache/
 *.py[cod]
+py-game-spinners/.pytest_cache/
 py-game-spinners/.coverage
 py-game-spinners/docs/build/
 py-game-spinners/build/
