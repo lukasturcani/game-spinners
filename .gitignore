@@ -13,7 +13,7 @@ __pycache__/
 .Python
 .venv/
 env/
-bin/
+py-game-spinners/bin/
 build/
 develop-eggs/
 dist/
