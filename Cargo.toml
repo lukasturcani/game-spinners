@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/*",
+  "py-game-spinners",
+]
+default-members = [
+  "crates/*",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Lukas Turcani <lukasturcani93@gmail.com>"]
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/lukasturcani/game-spinners"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
