@@ -12,17 +12,17 @@ const GRAY4: Color = Color::srgb(51. / 255., 51. / 255., 51. / 255.);
 pub fn app() -> App {
     let mut app = App::new();
     app.add_plugins((
-        DefaultPlugins
-            .build()
-            .disable::<WinitPlugin>()
-            .disable::<LogPlugin>(),
-        ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(1. / 60.)),
-        RatatuiPlugins::default(),
-        RatatuiCameraPlugin,
+        DefaultPlugins,
+        // .build()
+        // .disable::<WinitPlugin>()
+        // .disable::<LogPlugin>(),
+        // ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(1. / 60.)),
+        // RatatuiPlugins::default(),
+        // RatatuiCameraPlugin,
     ))
     .add_systems(Startup, (setup, spawn_snake))
     .add_systems(FixedUpdate, move_snakes)
-    .add_systems(PostUpdate, draw_scene_system.map(error))
+    // .add_systems(PostUpdate, draw_scene_system.map(error))
     .insert_resource(Time::<Fixed>::from_seconds(0.5));
     app
 }
@@ -131,15 +131,15 @@ fn spawn_food(mut commands: Commands) {
     todo!()
 }
 
-fn draw_scene_system(
-    mut ratatui: ResMut<RatatuiContext>,
-    camera_widget: Query<&RatatuiCameraWidget>,
-) -> std::io::Result<()> {
-    ratatui.draw(|frame| {
-        camera_widget
-            .single()
-            .render(frame.area(), frame.buffer_mut());
-    })?;
-
-    Ok(())
-}
+// fn draw_scene_system(
+//     mut ratatui: ResMut<RatatuiContext>,
+//     camera_widget: Query<&RatatuiCameraWidget>,
+// ) -> std::io::Result<()> {
+//     ratatui.draw(|frame| {
+//         camera_widget
+//             .single()
+//             .render(frame.area(), frame.buffer_mut());
+//     })?;
+//
+//     Ok(())
+// }
