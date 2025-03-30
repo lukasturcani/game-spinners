@@ -53,10 +53,15 @@ fn setup(
     commands.spawn((
         Camera2d,
         OrthographicProjection {
-            scale: 0.08,
+            scale: 0.01,
             ..OrthographicProjection::default_2d()
         },
-        Transform::from_xyz(box_size.width as f32 / 2., box_size.height as f32 / 2., 0.0),
+        Transform::from_xyz(0.0, 0.0, 0.0),
+    ));
+    commands.spawn((
+        Mesh2d(meshes.add(Circle::new(1.))),
+        MeshMaterial2d(materials.add(Color::from(RED))),
+        Transform::from_xyz(0.0, 0.0, 0.0),
     ));
     commands.insert_resource(Score(0));
     commands.insert_resource(box_size);
@@ -72,13 +77,14 @@ fn spawn_snake(
             direction: Direction::Right,
             head_position: (0, 0),
         },
-        Mesh2d(meshes.add(Rectangle::new(1., 1.))),
+        Mesh2d(meshes.add(Rectangle::new(1.34, 1.34))),
         MeshMaterial2d(materials.add(Color::from(LIMEGREEN))),
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
 }
 
 fn move_snakes(mut snakes: Query<(&mut Transform, &mut Snake)>, box_size: Res<BoxSize>) {
+    return;
     for (mut transform, mut snake) in snakes.iter_mut() {
         match snake.direction {
             Direction::Up => {
