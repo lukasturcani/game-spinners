@@ -1,15 +1,11 @@
 use std::time::Duration;
 
-use bevy::{
-    app::ScheduleRunnerPlugin, log::LogPlugin, prelude::*, utils::error, winit::WinitPlugin,
-};
-
-const GRAY4: Color = Color::srgb(51. / 255., 51. / 255., 51. / 255.);
+use bevy::{color::palettes::css::*, prelude::*};
 
 pub fn app() -> App {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins)
-        .insert_resource(Time::<Fixed>::from_duration(Duration::from_millis(2)))
+        .insert_resource(Time::<Fixed>::from_duration(Duration::from_millis(250)))
         .add_systems(Startup, (setup, spawn_snake))
         .add_systems(FixedUpdate, move_snakes);
     app
@@ -53,18 +49,11 @@ fn setup(
         width: 10,
         height: 10,
     };
-    commands.spawn((
-        Mesh2d(meshes.add(Rectangle::new(
-            box_size.width as f32,
-            box_size.height as f32,
-        ))),
-        MeshMaterial2d(materials.add(Color::srgb(0.5, 0.5, 0.5))),
-        Transform::from_xyz(0.0, 0.0, 0.0),
-    ));
+
     commands.spawn((
         Camera2d,
         OrthographicProjection {
-            scale: 0.1,
+            scale: 0.08,
             ..OrthographicProjection::default_2d()
         },
         Transform::from_xyz(box_size.width as f32 / 2., box_size.height as f32 / 2., 0.0),
@@ -84,7 +73,7 @@ fn spawn_snake(
             head_position: (0, 0),
         },
         Mesh2d(meshes.add(Rectangle::new(1., 1.))),
-        MeshMaterial2d(materials.add(Color::srgb(0.5, 0.5, 0.5))),
+        MeshMaterial2d(materials.add(Color::from(LIMEGREEN))),
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
 }
