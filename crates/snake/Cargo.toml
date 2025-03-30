@@ -8,6 +8,3 @@ repository.workspace = true
 
 [dependencies]
 bevy = { workspace = true }
-bevy_ratatui = { workspace = true }
-bevy_ratatui_camera = { workspace = true }
-ratatui = { workspace = true }

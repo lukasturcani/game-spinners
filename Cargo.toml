@@ -28,6 +28,3 @@ opt-level = 3
 
 [workspace.dependencies]
 bevy = "0.15.3"
-bevy_ratatui_camera = "0.10.0"
-bevy_ratatui = "0.7.0"
-ratatui = "0.29.0"

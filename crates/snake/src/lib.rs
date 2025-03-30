@@ -3,27 +3,15 @@ use std::time::Duration;
 use bevy::{
     app::ScheduleRunnerPlugin, log::LogPlugin, prelude::*, utils::error, winit::WinitPlugin,
 };
-use bevy_ratatui::{RatatuiPlugins, terminal::RatatuiContext};
-use bevy_ratatui_camera::{RatatuiCamera, RatatuiCameraPlugin, RatatuiCameraWidget};
-use ratatui::widgets::Widget;
 
 const GRAY4: Color = Color::srgb(51. / 255., 51. / 255., 51. / 255.);
 
 pub fn app() -> App {
     let mut app = App::new();
-    app.add_plugins((
-        DefaultPlugins,
-        // .build()
-        // .disable::<WinitPlugin>()
-        // .disable::<LogPlugin>(),
-        // ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(1. / 60.)),
-        // RatatuiPlugins::default(),
-        // RatatuiCameraPlugin,
-    ))
-    .add_systems(Startup, (setup, spawn_snake))
-    .add_systems(FixedUpdate, move_snakes)
-    // .add_systems(PostUpdate, draw_scene_system.map(error))
-    .insert_resource(Time::<Fixed>::from_seconds(0.5));
+    app.add_plugins(DefaultPlugins)
+        .insert_resource(Time::<Fixed>::from_duration(Duration::from_millis(2)))
+        .add_systems(Startup, (setup, spawn_snake))
+        .add_systems(FixedUpdate, move_snakes);
     app
 }
 
@@ -56,11 +44,23 @@ struct Snake {
     head_position: (u16, u16),
 }
 
-fn setup(mut commands: Commands) {
+fn setup(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+) {
     let box_size = BoxSize {
         width: 10,
         height: 10,
     };
+    commands.spawn((
+        Mesh2d(meshes.add(Rectangle::new(
+            box_size.width as f32,
+            box_size.height as f32,
+        ))),
+        MeshMaterial2d(materials.add(Color::srgb(0.5, 0.5, 0.5))),
+        Transform::from_xyz(0.0, 0.0, 0.0),
+    ));
     commands.spawn((
         Camera2d,
         OrthographicProjection {
@@ -68,7 +68,6 @@ fn setup(mut commands: Commands) {
             ..OrthographicProjection::default_2d()
         },
         Transform::from_xyz(box_size.width as f32 / 2., box_size.height as f32 / 2., 0.0),
-        RatatuiCamera::default(),
     ));
     commands.insert_resource(Score(0));
     commands.insert_resource(box_size);
@@ -130,16 +129,3 @@ fn move_snakes(mut snakes: Query<(&mut Transform, &mut Snake)>, box_size: Res<Bo
 fn spawn_food(mut commands: Commands) {
     todo!()
 }
-
-// fn draw_scene_system(
-//     mut ratatui: ResMut<RatatuiContext>,
-//     camera_widget: Query<&RatatuiCameraWidget>,
-// ) -> std::io::Result<()> {
-//     ratatui.draw(|frame| {
-//         camera_widget
-//             .single()
-//             .render(frame.area(), frame.buffer_mut());
-//     })?;
-//
-//     Ok(())
-// }
