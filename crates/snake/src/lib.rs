@@ -18,7 +18,6 @@ struct Score(u16);
 struct BoxOutline {
     width: u16,
     height: u16,
-    border: u16,
 }
 
 #[derive(Debug, Component)]
@@ -49,7 +48,6 @@ fn setup(
     let box_outline = BoxOutline {
         width: 60,
         height: 30,
-        border: 1,
     };
     commands.spawn((
         Camera2d,
@@ -59,21 +57,32 @@ fn setup(
         },
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
+    let border_width = 1.0;
     commands.spawn((
         Mesh2d(meshes.add(Rectangle::new(
-            box_outline.border as f32,
-            (box_outline.height + box_outline.border * 2) as f32,
+            border_width,
+            box_outline.height as f32 + border_width,
         ))),
         MeshMaterial2d(materials.add(Color::from(GRAY))),
         Transform::from_xyz(-(box_outline.width as f32) / 2., 0.0, 0.0),
     ));
     commands.spawn((
         Mesh2d(meshes.add(Rectangle::new(
-            box_outline.border as f32,
-            (box_outline.height + box_outline.border * 2) as f32,
+            border_width,
+            box_outline.height as f32 + border_width,
         ))),
         MeshMaterial2d(materials.add(Color::from(GRAY))),
         Transform::from_xyz((box_outline.width as f32) / 2., 0.0, 0.0),
+    ));
+    commands.spawn((
+        Mesh2d(meshes.add(Rectangle::new(box_outline.width as f32, border_width))),
+        MeshMaterial2d(materials.add(Color::from(GRAY))),
+        Transform::from_xyz(0.0, -(box_outline.height as f32) / 2., 0.0),
+    ));
+    commands.spawn((
+        Mesh2d(meshes.add(Rectangle::new(box_outline.width as f32, border_width))),
+        MeshMaterial2d(materials.add(Color::from(GRAY))),
+        Transform::from_xyz(0.0, (box_outline.height as f32) / 2., 0.0),
     ));
     commands.insert_resource(Score(0));
     commands.insert_resource(box_outline);
