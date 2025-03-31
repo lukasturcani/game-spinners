@@ -67,6 +67,14 @@ fn setup(
         MeshMaterial2d(materials.add(Color::from(GRAY))),
         Transform::from_xyz(-(box_outline.width as f32) / 2., 0.0, 0.0),
     ));
+    commands.spawn((
+        Mesh2d(meshes.add(Rectangle::new(
+            box_outline.border as f32,
+            (box_outline.height + box_outline.border * 2) as f32,
+        ))),
+        MeshMaterial2d(materials.add(Color::from(GRAY))),
+        Transform::from_xyz((box_outline.width as f32) / 2., 0.0, 0.0),
+    ));
     commands.insert_resource(Score(0));
     commands.insert_resource(box_outline);
 }
